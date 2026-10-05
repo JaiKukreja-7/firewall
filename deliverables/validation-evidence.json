@@ -1,0 +1,370 @@
+{
+  "scope": "Educational policy model and static ACL subset analysis. Not Packet Tracer, IOS, or real application traffic.",
+  "generated_utc": "2026-10-05T17:39:28.285934+00:00",
+  "python_test_methods": 16,
+  "failures": 0,
+  "errors": 0,
+  "browser_checks_verified": 20,
+  "reporting_checks_verified": 13,
+  "corporate_boundary_cases": 5334,
+  "admin_source_cases": 253,
+  "scenarios": [
+    {
+      "name": "Corporate HTTPS + PAT",
+      "expected": "PERMIT",
+      "passed": true,
+      "source": "192.168.10.50",
+      "destination": "198.51.100.10",
+      "protocol": "TCP",
+      "port": 443,
+      "source_port": 51234,
+      "source_zone": "Corporate",
+      "destination_zone": "Internet",
+      "action": "PERMIT",
+      "rule": "Outbound HTTPS",
+      "nat": "203.0.113.2:10001"
+    },
+    {
+      "name": "Second workstation HTTPS + PAT",
+      "expected": "PERMIT",
+      "passed": true,
+      "source": "192.168.10.51",
+      "destination": "198.51.100.10",
+      "protocol": "TCP",
+      "port": 443,
+      "source_port": 51234,
+      "source_zone": "Corporate",
+      "destination_zone": "Internet",
+      "action": "PERMIT",
+      "rule": "Outbound HTTPS",
+      "nat": "203.0.113.2:10002"
+    },
+    {
+      "name": "Approved DNS",
+      "expected": "PERMIT",
+      "passed": true,
+      "source": "192.168.10.50",
+      "destination": "8.8.8.8",
+      "protocol": "UDP",
+      "port": 53,
+      "source_port": 51234,
+      "source_zone": "Corporate",
+      "destination_zone": "Internet",
+      "action": "PERMIT",
+      "rule": "DNS to approved resolver",
+      "nat": "203.0.113.2:10003"
+    },
+    {
+      "name": "Corporate to SCADA",
+      "expected": "DENY",
+      "passed": true,
+      "source": "192.168.10.50",
+      "destination": "192.168.20.10",
+      "protocol": "TCP",
+      "port": 3389,
+      "source_port": 51234,
+      "source_zone": "Corporate",
+      "destination_zone": "Factory OT",
+      "action": "DENY",
+      "rule": "Block Corporate lateral movement",
+      "nat": null
+    },
+    {
+      "name": "Corporate to PLC",
+      "expected": "DENY",
+      "passed": true,
+      "source": "192.168.10.50",
+      "destination": "192.168.20.50",
+      "protocol": "TCP",
+      "port": 502,
+      "source_port": 51234,
+      "source_zone": "Corporate",
+      "destination_zone": "Factory OT",
+      "action": "DENY",
+      "rule": "Block Corporate lateral movement",
+      "nat": null
+    },
+    {
+      "name": "Corporate to Admin",
+      "expected": "DENY",
+      "passed": true,
+      "source": "192.168.10.50",
+      "destination": "192.168.30.10",
+      "protocol": "TCP",
+      "port": 22,
+      "source_port": 51234,
+      "source_zone": "Corporate",
+      "destination_zone": "Admin",
+      "action": "DENY",
+      "rule": "Block Corporate lateral movement",
+      "nat": null
+    },
+    {
+      "name": "Jump host gateway SSH",
+      "expected": "PERMIT",
+      "passed": true,
+      "source": "192.168.30.10",
+      "destination": "192.168.30.1",
+      "protocol": "TCP",
+      "port": 22,
+      "source_port": 51234,
+      "source_zone": "Admin",
+      "destination_zone": "Admin",
+      "action": "PERMIT",
+      "rule": "Gateway VTY restricted to jump host SSH",
+      "nat": null
+    },
+    {
+      "name": "Jump host OT SSH",
+      "expected": "PERMIT",
+      "passed": true,
+      "source": "192.168.30.10",
+      "destination": "192.168.20.10",
+      "protocol": "TCP",
+      "port": 22,
+      "source_port": 51234,
+      "source_zone": "Admin",
+      "destination_zone": "Factory OT",
+      "action": "PERMIT",
+      "rule": "Jump host SSH management",
+      "nat": null
+    },
+    {
+      "name": "Jump host SCADA RDP",
+      "expected": "PERMIT",
+      "passed": true,
+      "source": "192.168.30.10",
+      "destination": "192.168.20.10",
+      "protocol": "TCP",
+      "port": 3389,
+      "source_port": 51234,
+      "source_zone": "Admin",
+      "destination_zone": "Factory OT",
+      "action": "PERMIT",
+      "rule": "Jump host SCADA RDP",
+      "nat": null
+    },
+    {
+      "name": "Other admin cannot manage OT",
+      "expected": "DENY",
+      "passed": true,
+      "source": "192.168.30.11",
+      "destination": "192.168.20.10",
+      "protocol": "TCP",
+      "port": 3389,
+      "source_port": 51234,
+      "source_zone": "Admin",
+      "destination_zone": "Factory OT",
+      "action": "DENY",
+      "rule": "Default deny",
+      "nat": null
+    },
+    {
+      "name": "Telnet across zones",
+      "expected": "DENY",
+      "passed": true,
+      "source": "192.168.30.10",
+      "destination": "192.168.20.10",
+      "protocol": "TCP",
+      "port": 23,
+      "source_port": 51234,
+      "source_zone": "Admin",
+      "destination_zone": "Factory OT",
+      "action": "DENY",
+      "rule": "Block Telnet",
+      "nat": null
+    },
+    {
+      "name": "OT Internet access",
+      "expected": "DENY",
+      "passed": true,
+      "source": "192.168.20.10",
+      "destination": "198.51.100.10",
+      "protocol": "TCP",
+      "port": 443,
+      "source_port": 51234,
+      "source_zone": "Factory OT",
+      "destination_zone": "Internet",
+      "action": "DENY",
+      "rule": "Block OT-initiated traffic across zones",
+      "nat": null
+    },
+    {
+      "name": "Unsolicited Internet",
+      "expected": "DENY",
+      "passed": true,
+      "source": "198.51.100.10",
+      "destination": "203.0.113.2",
+      "protocol": "TCP",
+      "port": 22,
+      "source_port": 51234,
+      "source_zone": "Internet",
+      "destination_zone": "Internet",
+      "action": "DENY",
+      "rule": "Block unsolicited Internet traffic",
+      "nat": null
+    },
+    {
+      "name": "Unauthorized egress",
+      "expected": "DENY",
+      "passed": true,
+      "source": "192.168.10.50",
+      "destination": "198.51.100.10",
+      "protocol": "TCP",
+      "port": 4444,
+      "source_port": 51234,
+      "source_zone": "Corporate",
+      "destination_zone": "Internet",
+      "action": "DENY",
+      "rule": "Default deny",
+      "nat": null
+    },
+    {
+      "name": "Unapproved DNS",
+      "expected": "DENY",
+      "passed": true,
+      "source": "192.168.10.50",
+      "destination": "1.1.1.1",
+      "protocol": "UDP",
+      "port": 53,
+      "source_port": 51234,
+      "source_zone": "Corporate",
+      "destination_zone": "Internet",
+      "action": "DENY",
+      "rule": "Default deny",
+      "nat": null
+    },
+    {
+      "name": "Lab external ping",
+      "expected": "PERMIT",
+      "passed": true,
+      "source": "192.168.10.50",
+      "destination": "198.51.100.10",
+      "protocol": "ICMP",
+      "port": 1,
+      "source_port": 51234,
+      "source_zone": "Corporate",
+      "destination_zone": "Internet",
+      "action": "PERMIT",
+      "rule": "Lab-only external ping",
+      "nat": "203.0.113.2:10004"
+    }
+  ],
+  "translations": [
+    {
+      "inside_local": "192.168.10.50:51234",
+      "inside_global": "203.0.113.2:10001",
+      "outside": "198.51.100.10:443",
+      "protocol": "TCP"
+    },
+    {
+      "inside_local": "192.168.10.51:51234",
+      "inside_global": "203.0.113.2:10002",
+      "outside": "198.51.100.10:443",
+      "protocol": "TCP"
+    },
+    {
+      "inside_local": "192.168.10.50:51234",
+      "inside_global": "203.0.113.2:10003",
+      "outside": "8.8.8.8:53",
+      "protocol": "UDP"
+    },
+    {
+      "inside_local": "192.168.10.50:51234",
+      "inside_global": "203.0.113.2:10004",
+      "outside": "198.51.100.10:1",
+      "protocol": "ICMP"
+    }
+  ],
+  "outstanding": [
+    "Packet Tracer/IOS execution",
+    "Real HTTPS, SSH and RDP handshakes",
+    "Networked industrial database synchronization",
+    "Full stateful inspection"
+  ],
+  "reporting": {
+    "scope": "Local SQLite read-only enforcement and simulated network exception; no real HTTPS, VLAN or industrial DB service",
+    "policy": {
+      "source": "192.168.10.60",
+      "destination": "192.168.20.10",
+      "protocol": "TCP",
+      "port": 8443
+    },
+    "telemetry": [
+      [
+        "PLC-01",
+        "RUNNING",
+        1240
+      ],
+      [
+        "PLC-02",
+        "RUNNING",
+        980
+      ]
+    ],
+    "results": [
+      {
+        "name": "Dedicated reporting host",
+        "expected": "PERMIT",
+        "observed": "PERMIT",
+        "passed": true
+      },
+      {
+        "name": "Ordinary corporate workstation",
+        "expected": "DENY",
+        "observed": "DENY",
+        "passed": true
+      },
+      {
+        "name": "Wrong service port",
+        "expected": "DENY",
+        "observed": "DENY",
+        "passed": true
+      },
+      {
+        "name": "PLC direct access",
+        "expected": "DENY",
+        "observed": "DENY",
+        "passed": true
+      },
+      {
+        "name": "Wrong protocol",
+        "expected": "DENY",
+        "observed": "DENY",
+        "passed": true
+      },
+      {
+        "name": "Read telemetry",
+        "passed": true
+      },
+      {
+        "name": "Reject UPDATE",
+        "passed": true
+      },
+      {
+        "name": "Reject DELETE",
+        "passed": true
+      },
+      {
+        "name": "Reject INSERT",
+        "passed": true
+      },
+      {
+        "name": "Reject schema changes",
+        "passed": true
+      },
+      {
+        "name": "Reject query-only override",
+        "passed": true
+      },
+      {
+        "name": "Reject attached database",
+        "passed": true
+      },
+      {
+        "name": "Underlying data unchanged",
+        "passed": true
+      }
+    ]
+  }
+}

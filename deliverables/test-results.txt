@@ -1,0 +1,21 @@
+test_corporate_admin_ssh_return_not_shadowed (test_cisco_policy.CiscoPolicyTests.test_corporate_admin_ssh_return_not_shadowed) ... ok
+test_corporate_boundary_matrix (test_cisco_policy.CiscoPolicyTests.test_corporate_boundary_matrix) ... ok
+test_corporate_web_and_dns (test_cisco_policy.CiscoPolicyTests.test_corporate_web_and_dns) ... ok
+test_interfaces_and_nat_scope (test_cisco_policy.CiscoPolicyTests.test_interfaces_and_nat_scope) ... ok
+test_jump_host_restriction (test_cisco_policy.CiscoPolicyTests.test_jump_host_restriction) ... ok
+test_ot_replies_and_egress (test_cisco_policy.CiscoPolicyTests.test_ot_replies_and_egress) ... ok
+test_wan_pre_nat_and_stateless_limit (test_cisco_policy.CiscoPolicyTests.test_wan_pre_nat_and_stateless_limit) ... ok
+test_admin_ot_reply_and_no_ot_pat (test_model.PolicyTests.test_admin_ot_reply_and_no_ot_pat) ... ok
+test_dns_reply (test_model.PolicyTests.test_dns_reply) ... ok
+test_invalid_input (test_model.PolicyTests.test_invalid_input) ... ok
+test_pat_collision_and_reuse (test_model.PolicyTests.test_pat_collision_and_reuse) ... ok
+test_scenarios (test_model.PolicyTests.test_scenarios) ... ok
+test_wan_reply_only_matching_session (test_model.PolicyTests.test_wan_reply_only_matching_session) ... ok
+test_fixture_never_replaces_existing_table (test_reporting.ReportingTests.test_fixture_never_replaces_existing_table) ... ok
+test_read_only_reporting_and_exception (test_reporting.ReportingTests.test_read_only_reporting_and_exception) ... ok
+test_read_only_uri_independently_rejects_writes (test_reporting.ReportingTests.test_read_only_uri_independently_rejects_writes) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.124s
+
+OK

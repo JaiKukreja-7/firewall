@@ -1,0 +1,11 @@
+# No-install read-only reporting demonstration
+
+Run `python3 reporting_demo.py`. Uses Python standard-library SQLite, no extra installation. The program creates a temporary telemetry database and opens it with SQLite `mode=ro`, `query_only=ON`, and an authorizer permitting only SELECT and reads of the telemetry table. Thirteen checks pass: five policy decisions, telemetry SELECT, six prohibited operations, and unchanged data. Three additional unittest methods bring the complete Python suite to 16 passing methods.
+
+The proposed narrowly scoped exception is Corporate reporting host `192.168.10.60` to OT reporting service `192.168.20.10`, TCP 8443. This is a new documented design assumption, not a detail from the original report. It is tested as a separate opt-in policy function. The baseline dashboard and Cisco configs remain strict-deny; they do not silently enable this exception. TCP 8443 describes a future HTTPS telemetry API; this demo executes SQLite locally and does not implement that API or real cross-VLAN forwarding.
+
+If implementing this in a real service, serve only read-only telemetry queries under a separate reporting identity; restrict the source at the network boundary; use authenticated TLS; validate input; and keep the API/database account unprivileged. IP matching is not user authentication. Local file owners/admins can open another writable connection; this read-only connection does not enforce immutable storage or contain a compromised host administrator.
+
+Optional IOS inserts, to use only when such a service actually exists: insert `permit tcp host 192.168.10.60 host 192.168.20.10 eq 8443` into CORP-INBOUND-ACL BEFORE its OT deny. Insert `permit tcp host 192.168.20.10 eq 8443 host 192.168.10.60 established` into OT-INBOUND-ACL BEFORE its final deny. These remain stateless rules and require separate IOS validation. Never claim the permit enforces read-only SQL.
+
+Status update: the read-only application behavior has now been demonstrated with real local SQLite operations, alongside a simulated narrow reporting exception. The industrial reporting deployment, encrypted network service, actual segmentation and Packet Tracer execution remain unverified. Earlier reports predate this supplement.

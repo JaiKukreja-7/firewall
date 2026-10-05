@@ -1,0 +1,85 @@
+{
+  "scope": "Local SQLite read-only enforcement and simulated network exception; no real HTTPS, VLAN or industrial DB service",
+  "policy": {
+    "source": "192.168.10.60",
+    "destination": "192.168.20.10",
+    "protocol": "TCP",
+    "port": 8443
+  },
+  "telemetry": [
+    [
+      "PLC-01",
+      "RUNNING",
+      1240
+    ],
+    [
+      "PLC-02",
+      "RUNNING",
+      980
+    ]
+  ],
+  "results": [
+    {
+      "name": "Dedicated reporting host",
+      "expected": "PERMIT",
+      "observed": "PERMIT",
+      "passed": true
+    },
+    {
+      "name": "Ordinary corporate workstation",
+      "expected": "DENY",
+      "observed": "DENY",
+      "passed": true
+    },
+    {
+      "name": "Wrong service port",
+      "expected": "DENY",
+      "observed": "DENY",
+      "passed": true
+    },
+    {
+      "name": "PLC direct access",
+      "expected": "DENY",
+      "observed": "DENY",
+      "passed": true
+    },
+    {
+      "name": "Wrong protocol",
+      "expected": "DENY",
+      "observed": "DENY",
+      "passed": true
+    },
+    {
+      "name": "Read telemetry",
+      "passed": true
+    },
+    {
+      "name": "Reject UPDATE",
+      "passed": true
+    },
+    {
+      "name": "Reject DELETE",
+      "passed": true
+    },
+    {
+      "name": "Reject INSERT",
+      "passed": true
+    },
+    {
+      "name": "Reject schema changes",
+      "passed": true
+    },
+    {
+      "name": "Reject query-only override",
+      "passed": true
+    },
+    {
+      "name": "Reject attached database",
+      "passed": true
+    },
+    {
+      "name": "Underlying data unchanged",
+      "passed": true
+    }
+  ]
+}

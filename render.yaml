@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: ns-p02-firewall-lab
+    runtime: python
+    plan: free
+    buildCommand: python3 tools/build_site.py && python3 -m unittest discover -s tests -v
+    startCommand: python3 server.py --host 0.0.0.0
+    healthCheckPath: /health
+    autoDeployTrigger: commit
