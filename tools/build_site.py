@@ -14,7 +14,9 @@ site.mkdir(exist_ok=True)
 for source in (ROOT / 'web').glob('*.html'):
     shutil.copy2(source, site / source.name)
 for name in ['submission.html', 'NS-P02_Verification_Report.pdf', 'NS-P02_Verification_Report.docx',
-             'NS-P02_Presentation.pptx', 'validation-evidence.json', 'presentation-script.md']:
+             'NS-P02_Presentation.pptx', 'validation-evidence.json', 'presentation-script.md',
+             'teacher-guide.html', 'NS-P02_Teacher_Guide.pdf', 'NS-P02_Teacher_Guide.docx',
+             'NS-P02_Teacher_Guide.md']:
     source = ROOT / 'deliverables' / name
     if source.exists():
         shutil.copy2(source, site / name)

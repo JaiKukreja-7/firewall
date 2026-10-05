@@ -72,3 +72,7 @@ The final report and six-slide presentation are in `deliverables/`. The updated 
 ## Hosting
 
 Render supports the live SQLite reporting API plus the static dashboard using `render.yaml`. Vercel serves the prebuilt `site/` dashboard, report, presentation and recorded database evidence using `vercel.json`. No local CLI installation is required. See [deployment instructions](docs/deployment.md). The reporting page clearly distinguishes live checks from recorded evidence. Neither host provides Cisco Packet Tracer execution.
+
+## Teacher guide
+
+The comprehensive [project and viva guide](deliverables/NS-P02_Teacher_Guide.md) covers the implemented behavior, technology stack, architecture, security policies, API, database controls, verification, deployment, original-report coverage and classroom demonstration. Word and PDF copies are in `deliverables/`; the hosted printable version is `teacher-guide.html`. Generate with `python3 tools/build_teacher_guide.py` using the existing document-generation environment, then run `python3 tools/build_site.py`. Document-generation packages are development-only and are not needed by the live web service.
